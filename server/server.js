@@ -1,6 +1,8 @@
 
-
 import express from "express";
+import https from "https";
+import fs from "fs"; // Import the file system module to read SSL certificate and private key files
+
 import fetch from "node-fetch";
 import "dotenv/config";
 import path from "path";
@@ -9,6 +11,11 @@ import cors from "cors"; // Import the CORS middleware
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET, PORT} = process.env;
 const base = "https://api-m.sandbox.paypal.com";
 const app = express();
+
+const options = {
+  key: fs.readFileSync("/path/to/private.key"),
+  cert: fs.readFileSync("/path/to/certificate.crt")
+};
 
 app.use(express.static("client/dist"));
 // parse post params sent in body in json format
@@ -201,6 +208,10 @@ app.get("/", (req, res) => {
   res.json("running church API")
 });
 
-app.listen(PORT, () => {
-  console.log(`Node server listening at http://localhost:${PORT}/`);
+// app.listen(PORT, '0.0.0.0', () => {
+//   console.log(`Node server listening at http://0.0.0.0:${PORT}/`);
+// });
+const server = https.createServer(options, app);
+server.listen(PORT, () => {
+  console.log(`HTTPS server is running on port ${PORT}`);
 });
