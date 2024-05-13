@@ -10,7 +10,10 @@
     "express": "^4.18.2",
     "node-fetch": "^3.3.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "netlify-cli": "^12.7.2",
+    "netlify-lambda": "^2.0.15",
+    "serverless-http": "^2.7.0"
   },
   "scripts": {
     "client-dev": "vite",
@@ -20,7 +23,8 @@
     "start": "concurrently \"npm run client-dev\" \"npm run server-dev\"",
     "prod": "npm run client-build && node server/server.js",
     "format": "npx prettier --write **/*.{js,jsx,md}",
-    "format:check": "npx prettier --check **/*.{js,jsx,md}"
+    "format:check": "npx prettier --check **/*.{js,jsx,md}",
+    "build": "netlify deploy --prod"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.0.4",
